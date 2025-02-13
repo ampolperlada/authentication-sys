@@ -42,3 +42,29 @@ passport-google-oauth20 → For Google OAuth authentication
 pg → PostgreSQL database support
 
  Set Up PostgreSQL (User Table) ------------
+
+ 🔹 Step 1: Create Database & Table
+
+CREATE DATABASE authdb;
+
+\c authdb
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100),
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password VARCHAR(255),
+  google_id VARCHAR(255) UNIQUE,
+  role VARCHAR(50) DEFAULT 'user'
+);
+
+ This table stores:
+
+email/password for JWT authentication
+google_id for OAuth authentication
+role for role-based access
+
+
+📌 5️⃣ Backend: JWT Authentication (Register/Login)
+🔹 Step 1: Set Up User Model (models/user.js)
+
