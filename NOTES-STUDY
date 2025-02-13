@@ -10,3 +10,15 @@ Backend: Node.js, Express.js, PostgreSQL/MongoDB, JWT, OAuth (Google)
 Frontend: React.js (Optional for testing, or use Postman)
 Security: bcrypt.js (for password hashing), dotenv (for environment variables)
 
+FOLDER STRUCTURE:
+auth-system/
+│── backend/        ✅ (Express.js + JWT + OAuth)
+│   ├── config/         # Database & Auth Config
+│   ├── controllers/    # Logic for Register, Login, Google OAuth
+│   ├── middleware/     # Protect routes using JWT
+│   ├── models/         # User Schema (MongoDB/PostgreSQL)
+│   ├── routes/         # API routes for auth
+│   ├── index.js        # Main server file
+│── frontend/       ✅ (React.js for UI - Optional)
+│   ├── components/     # Login, Register Forms
+│   ├── App.js          # Connects frontend to backend
