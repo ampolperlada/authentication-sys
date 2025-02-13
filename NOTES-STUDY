@@ -1,0 +1,12 @@
+1️⃣ Project Overview
+🔹 Goal: Build an authentication system with:
+✅ JWT Authentication (Login, Register, Protect Routes)
+✅ Google OAuth Login (Login with Google)
+✅ Role-Based Access Control (Admin/User roles)
+
+🔹 Tech Stack:
+
+Backend: Node.js, Express.js, PostgreSQL/MongoDB, JWT, OAuth (Google)
+Frontend: React.js (Optional for testing, or use Postman)
+Security: bcrypt.js (for password hashing), dotenv (for environment variables)
+
