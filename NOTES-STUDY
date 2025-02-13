@@ -22,3 +22,23 @@ auth-system/
 │── frontend/       ✅ (React.js for UI - Optional)
 │   ├── components/     # Login, Register Forms
 │   ├── App.js          # Connects frontend to backend
+
+Backend: Set Up Node.js + Express.js ------------
+
+🔹 Step 1: Initialize Project
+
+mkdir auth-system && cd auth-system
+mkdir backend && cd backend
+npm init -y
+
+
+🔹 Step 2: Install Required Packages
+npm install express jsonwebtoken bcryptjs dotenv cors cookie-parser passport passport-google-oauth20 pg
+
+✅ Package Explanation:
+jsonwebtoken → For generating and verifying JWT tokens
+bcryptjs → For hashing passwords
+passport-google-oauth20 → For Google OAuth authentication
+pg → PostgreSQL database support
+
+ Set Up PostgreSQL (User Table) ------------
