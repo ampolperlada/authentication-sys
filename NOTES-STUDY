@@ -67,4 +67,50 @@ role for role-based access
 
 📌 5️⃣ Backend: JWT Authentication (Register/Login)
 🔹 Step 1: Set Up User Model (models/user.js)
+CODE: 
+const pool = require("../config/db");
+const bcrypt = require("bcryptjs");
+
+const User = {
+  findByEmail: async (email) => {
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    return result.rows[0];
+  },
+  createUser: async (name, email, password) => {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await pool.query(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+      [name, email, hashedPassword]
+    );
+    return result.rows[0];
+  }
+};
+
+module.exports = User;
+
+🔹 Step 2: Register & Login (controllers/authController.js)
+CODE:
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+
+exports.register = async (req, res) => {
+  const { name, email, password } = req.body;
+  const existingUser = await User.findByEmail(email);
+  if (existingUser) return res.status(400).json({ message: "User already exists" });
+
+  const newUser = await User.createUser(name, email, password);
+  res.status(201).json({ message: "User registered successfully" });
+};
+
+exports.login = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findByEmail(email);
+  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+
+  const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  res.json({ token });
+};
 
