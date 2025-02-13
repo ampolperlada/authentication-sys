@@ -21,3 +21,6 @@ exports.login = async (req, res) => {
   const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
   res.json({ token });
 };
+
+//✅ Now, users can register & log in using JWT authentication
+
