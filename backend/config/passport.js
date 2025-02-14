@@ -17,3 +17,8 @@ passport.use(new GoogleStrategy({
 
 passport.serializeUser((user, done) => done(null, user.id));
 passport.deserializeUser((id, done) => done(null, id));
+
+
+
+//✅ Users can now log in with Google!
+
