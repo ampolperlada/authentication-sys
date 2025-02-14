@@ -114,3 +114,110 @@ exports.login = async (req, res) => {
   res.json({ token });
 };
 
+🔹 Step 3: Protect Routes Using JWT (middleware/authMiddleware.js)
+const jwt = require("jsonwebtoken");
+
+exports.protect = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+  try {
+    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+
+📌 6️⃣ Add Google OAuth (Login with Google)
+🔹 Step 1: Set Up Google OAuth (config/passport.js)
+
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const User = require("../models/user");
+
+passport.use(new GoogleStrategy({
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "/auth/google/callback"
+}, async (accessToken, refreshToken, profile, done) => {
+  let user = await User.findByEmail(profile.emails[0].value);
+  if (!user) {
+    user = await User.createUser(profile.displayName, profile.emails[0].value, null);
+  }
+  done(null, user);
+}));
+
+passport.serializeUser((user, done) => done(null, user.id));
+passport.deserializeUser((id, done) => done(null, id));
+
+🔹 Step 2: Google Login Route (routes/auth.js)
+const express = require("express");
+const passport = require("passport");
+const router = express.Router();
+
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/" }), (req, res) => {
+  res.redirect("/dashboard");
+});
+
+module.exports = router;
+
+Step 1: Create config/db.js (Database Connection File)
+Inside backend/config/, create a new file called db.js and add this code:
+const { Pool } = require("pg");
+require("dotenv").config();
+
+const pool = new Pool({
+  user: process.env.DB_USER,      // PostgreSQL username
+  host: process.env.DB_HOST,      // Usually 'localhost'
+  database: process.env.DB_NAME,  // Database name
+  password: process.env.DB_PASS,  // PostgreSQL password
+  port: 5432                      // Default PostgreSQL port
+});
+
+module.exports = pool;
+
+
+Step 2: Update models/user.js to Use db.js
+If your models/user.js is missing or using the wrong database connection, update it:
+
+
+const pool = require("../config/db");  // ✅ This connects to db.js
+const bcrypt = require("bcryptjs");
+
+const User = {
+  findByEmail: async (email) => {
+    const result = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    return result.rows[0];
+  },
+
+  createUser: async (name, email, password) => {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await pool.query(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+      [name, email, hashedPassword]
+    );
+    return result.rows[0];
+  }
+};
+
+module.exports = User;
+✅ Now your user authentication system knows how to talk to PostgreSQL!
+
+
+Step 3: Add Database Credentials in .env
+Inside your backend/ folder, create or update your .env file:
+
+DB_USER=your_db_user
+DB_HOST=localhost
+DB_NAME=authdb
+DB_PASS=your_db_password
+DB_PORT=5432
+SESSION_SECRET=your_secret_key
+JWT_SECRET=your_jwt_secret
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+🔹 Replace your_db_user and your_db_password with your actual PostgreSQL credentials.
