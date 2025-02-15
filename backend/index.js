@@ -10,12 +10,12 @@ const protectedRoutes = require("./routes/protected");
 
 const app = express();
 
-// Middleware
-app.use(express.json()); // Parse JSON requests
+// ✅ Middleware (Make sure this is BEFORE your routes)
+app.use(express.json()); // ✅ Fix for req.body undefined issue
 app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Allow frontend requests
 app.use(cookieParser()); // Handle cookies
 
-// Session for Google OAuth
+// ✅ Session for Google OAuth
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "supersecretkey",
@@ -24,19 +24,19 @@ app.use(
   })
 );
 
-// Initialize Passport.js for Google OAuth
+// ✅ Initialize Passport.js for Google OAuth
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Routes
+// ✅ Routes (Ensure they are defined only ONCE)
 app.use("/api/auth", authRoutes); // Register, Login, JWT Auth
 app.use("/api", protectedRoutes); // Protected routes (dashboard)
 
-// Home route (optional)
+// ✅ Home route (optional)
 app.get("/", (req, res) => {
   res.send("Welcome to the Authentication System!");
 });
 
-// Start server
+// ✅ Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
