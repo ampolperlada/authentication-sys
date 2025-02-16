@@ -1,6 +1,9 @@
 //Logic for Register, Login, Google OAuth
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const bcrypt = require("bcryptjs"); // ✅ Add this line
+
+
 
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
