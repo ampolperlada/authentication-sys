@@ -250,3 +250,6 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 🔹 Replace your_db_user and your_db_password with your actual PostgreSQL credentials.
 
 
+🚀 Why is Vite Running on http://127.0.0.1:5173/ Instead of localhost:3000?
+Vite uses port 5173 by default, unlike Create React App (3000).
+Also, 127.0.0.1 is the same as localhost, just written differently.
