@@ -253,3 +253,26 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 🚀 Why is Vite Running on http://127.0.0.1:5173/ Instead of localhost:3000?
 Vite uses port 5173 by default, unlike Create React App (3000).
 Also, 127.0.0.1 is the same as localhost, just written differently.
+
+✅ How to Change Vite’s Port to 3000 (Optional)
+If you want it to run on http://localhost:3000, do this:
+
+1️⃣ Open vite.config.js in your project root
+2️⃣ Modify the config like this:
+
+js
+Copy
+Edit
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000, // Change Vite's default port to 3000
+  }
+});
+3️⃣ Restart the Vite dev server:
+
+npm run dev
+Now, your Vite app will run at http://localhost:3000/ instead of 5173. ✅
