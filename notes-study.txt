@@ -45,6 +45,16 @@ models/ → Manages database queries
 routes/ → Defines API endpoints
 ✅ Added a frontend/ folder (if you want a UI with React.js)
 
+
+express → Web framework for creating the API
+jsonwebtoken → Generates login tokens
+bcryptjs → Hashes passwords for security
+dotenv → Loads environment variables
+cors → Allows frontend to connect to backend
+passport & passport-google-oauth20 → Google login
+pg → Connects to PostgreSQL
+cookie-parser → Manages user sessions
+
 ✅ Kept .env in backend/ to store credentials securely
 
 
