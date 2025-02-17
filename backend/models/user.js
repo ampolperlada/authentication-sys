@@ -18,3 +18,12 @@ const User = {
 };
 
 module.exports = User;
+
+/*
+Explanation:
+
+findByEmail(email) → Searches for a user by email in the database.
+createUser(name, email, password) → Stores a new user (hashes password before saving).
+"INSERT INTO users (name, email, password) VALUES ($1, $2, $3)" → Adds user to PostgreSQL.
+
+*/

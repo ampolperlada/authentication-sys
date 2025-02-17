@@ -10,3 +10,14 @@ const pool = new Pool({
 });
 
 module.exports = pool;
+
+
+/*
+
+name → Stores the user's name.
+email → Stores the user's email (must be unique).
+password → Stores the user's hashed password (for JWT auth).
+google_id → Stores Google OAuth ID (for Google login).
+role → Assigns user roles (e.g., "admin" or "user").
+
+*/
