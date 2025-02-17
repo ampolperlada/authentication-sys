@@ -57,6 +57,17 @@ cookie-parser → Manages user sessions
 
 ✅ Kept .env in backend/ to store credentials securely
 
+ 2️⃣ List of API Endpoints & Their Functions
+These are the full URLs (endpoints) you can call to interact with your authentication system.
+
+HTTP Method	Endpoint	Description
+POST	http://localhost:5000/api/auth/register	Register a new user
+POST	http://localhost:5000/api/auth/login	User login (returns JWT token)
+GET	http://localhost:5000/api/protected	Access protected route (Requires JWT)
+GET	http://localhost:5000/auth/google	Start Google OAuth login
+GET	http://localhost:5000/auth/google/callback	Google OAuth callback after login
+GET	http://localhost:5000/dashboard	Redirect after Google login
+
 
 
 
