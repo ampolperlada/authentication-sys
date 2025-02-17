@@ -1,7 +1,5 @@
 //✅ This allows only authenticated users to access /api/dashboard.
 
-
-
 const express = require("express");
 const { protect } = require("../middleware/authMiddleware"); // ✅ Ensure you have this middleware
 
@@ -13,3 +11,4 @@ router.get("/dashboard", protect, (req, res) => {
 });
 
 module.exports = router;
+

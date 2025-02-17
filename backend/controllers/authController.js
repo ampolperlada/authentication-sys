@@ -28,3 +28,12 @@ exports.login = async (req, res) => {
 
 //✅ Now, users can register & log in using JWT authentication
 
+/* Explanation:
+
+const { name, email, password } = req.body; → Extracts the values from the Postman request body.
+await User.findByEmail(email); → Checks if the user exists in the database.
+await User.createUser(name, email, password); → Creates a new user in the database.
+bcrypt.compare(password, user.password); → Compares the entered password with the hashed one.
+jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" }); → Generates a token for authentication.
+
+*/
