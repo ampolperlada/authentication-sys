@@ -8,12 +8,16 @@ require("./config/passport"); // Google OAuth config
 const authRoutes = require("./routes/auth");
 const protectedRoutes = require("./routes/protected");
 
+
+
 const app = express();
 
 // ✅ Middleware (Make sure this is BEFORE your routes)
 app.use(express.json()); // ✅ Fix for req.body undefined issue
 app.use(cors({ origin: "http://localhost:3000", credentials: true })); // Allow frontend requests
 app.use(cookieParser()); // Handle cookies
+app.use("/api", protectedRoutes); // ✅ This ensures route is `/api/protected`
+
 
 // ✅ Session for Google OAuth
 app.use(
