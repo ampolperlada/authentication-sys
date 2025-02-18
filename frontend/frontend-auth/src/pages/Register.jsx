@@ -36,11 +36,7 @@ const Register = () => {
       </div>
     </div>
   );
-  
+};
+
+// ✅ Export should be **outside** of the return block.
 export default Register;
-
-/*✅ This page:
-
-Registers a new user
-Redirects to Login after successful signup
-*/
