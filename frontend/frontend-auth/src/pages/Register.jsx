@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import "../pages/Register.css"; // ✅ Import the CSS file
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
