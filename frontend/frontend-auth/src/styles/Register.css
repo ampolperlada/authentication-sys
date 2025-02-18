@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #1a1a1a; /* Dark theme */
+  background: #1a1a1a;
   color: white;
 }
 
@@ -20,6 +20,7 @@
 }
 
 .register-form input {
+  width: 100%;
   padding: 10px;
   border: 1px solid #444;
   background: #333;
@@ -33,7 +34,8 @@
 
 .register-btn {
   padding: 10px;
-  background: #ff4500; /* Button color */
+  width: 100%;
+  background: #ff4500;
   color: white;
   font-weight: bold;
   border: none;
