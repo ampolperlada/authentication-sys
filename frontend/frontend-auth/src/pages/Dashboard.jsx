@@ -43,3 +43,12 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+/* 
+This page:
+
+Fetches user data from /api/protected
+Redirects to login if no token is found
+Shows user email and logout button
+*/
