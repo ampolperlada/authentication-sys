@@ -27,19 +27,17 @@ const Dashboard = () => {
   }, [navigate]);
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      {user ? (
-        <div>
-          <p>Welcome, {user.email}!</p>
-          <button onClick={() => { localStorage.removeItem("token"); navigate("/login"); }}>
-            Logout
-          </button>
-        </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+    <div className="login-container">
+    <div className="login-box">
+      <h2>Login</h2>
+      <form className="login-form" onSubmit={handleLogin}>
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <button className="login-btn" type="submit">Login</button>
+      </form>
     </div>
+  </div>
+  
   );
 };
 
