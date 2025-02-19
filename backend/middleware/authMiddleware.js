@@ -1,24 +1,21 @@
-//Protects routes & handles user roles
-const jwt = require("jsonwebtoken");
+const express = require("express");
+const { register, login } = require("../controllers/authController");
+const { protect } = require("../middleware/authMiddleware"); // ✅ Import JWT middleware
 
-exports.protect = (req, res, next) => {
-  // ✅ Get token from headers
-  const token = req.headers.authorization;
+const router = express.Router();
 
-  // ❌ If no token is found, return Unauthorized
-  if (!token) return res.status(401).json({ message: "Unauthorized" });
+// ✅ Register User
+router.post("/register", register);
 
-  try {
-    // ✅ Verify token (Remove 'Bearer ' from token string)
-    const decoded = jwt.verify(token.split(" ")[1], process.env.JWT_SECRET);
+// ✅ Login User
+router.post("/login", login);
 
-    // ✅ Attach decoded user to request object
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid token" });
-  }
-};
+// ✅ Protected Dashboard Route (Requires JWT)
+router.get("/dashboard", protect, (req, res) => {
+  res.json({
+    message: "Welcome to the protected dashboard!",
+    user: req.user, // ✅ Sends user data from token
+  });
+});
 
-//✅ This middleware protects API routes. Users must be logged in to access protected data.
-
+module.exports = router;

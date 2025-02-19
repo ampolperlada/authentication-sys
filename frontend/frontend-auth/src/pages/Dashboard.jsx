@@ -13,7 +13,7 @@ const Dashboard = () => {
       if (!token) return navigate("/login"); // ✅ Redirect if not logged in
 
       try {
-        const res = await axios.get("http://localhost:5000/api/protected", {
+        const res = await axios.get("http://localhost:5000/api/auth/dashboard", {  // ✅ Updated API route
           headers: { Authorization: `Bearer ${token}` },
         });
         setUser(res.data.user);
