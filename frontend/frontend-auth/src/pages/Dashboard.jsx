@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "../styles/Dashboard.css";
+import "../styles/Dashboard.css"; // ✅ Import CSS
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -18,36 +18,29 @@ const Dashboard = () => {
         });
         setUser(res.data.user);
       } catch (error) {
-        localStorage.removeItem("token"); // Clear invalid token
-        navigate("/login"); // Redirect to login
+        localStorage.removeItem("token"); // ✅ Clear invalid token
+        navigate("/login"); // ✅ Redirect to login
       }
     };
 
     fetchUser();
   }, [navigate]);
 
+  // ✅ Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login"); // Redirect after logout
+  };
+
   return (
-    <div className="login-container">
-    <div className="login-box">
-      <h2>Login</h2>
-      <form className="login-form" onSubmit={handleLogin}>
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button className="login-btn" type="submit">Login</button>
-      </form>
+    <div className="dashboard-container">
+      <div className="dashboard-box">
+        <h2>Welcome, {user?.email || "Guest"}!</h2>
+        <p>You are logged in as <strong>{user?.role || "User"}</strong>.</p>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
+      </div>
     </div>
-  </div>
-  
   );
 };
 
 export default Dashboard;
-
-
-/* 
-This page:
-
-Fetches user data from /api/protected
-Redirects to login if no token is found
-Shows user email and logout button
-*/
