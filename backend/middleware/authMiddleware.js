@@ -1,21 +1,29 @@
-const express = require("express");
-const { register, login } = require("../controllers/authController");
-const { protect } = require("../middleware/authMiddleware"); // ✅ Import JWT middleware
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const pool = require("../config/db"); // ✅ Ensure database connection
 
-const router = express.Router();
+exports.register = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-// ✅ Register User
-router.post("/register", register);
+    // ✅ Check if user already exists
+    const existingUser = await pool.query("SELECT * FROM users WHERE email = $1", [email]);
+    if (existingUser.rows.length > 0) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
-// ✅ Login User
-router.post("/login", login);
+    // ✅ Hash the password before storing it
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-// ✅ Protected Dashboard Route (Requires JWT)
-router.get("/dashboard", protect, (req, res) => {
-  res.json({
-    message: "Welcome to the protected dashboard!",
-    user: req.user, // ✅ Sends user data from token
-  });
-});
+    // ✅ Insert user into the database
+    const newUser = await pool.query(
+      "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+      [name, email, hashedPassword]
+    );
 
-module.exports = router;
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
