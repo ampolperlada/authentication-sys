@@ -44,3 +44,20 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+/* 
+✅ What’s New in This Update?
+✅ Fixed API Route:
+
+Updated the request to GET http://localhost:5000/api/auth/dashboard instead of /api/protected.
+✅ Improved Security:
+
+Redirects users without a token back to /login.
+Removes an invalid token when authentication fails.
+✅ Added Logout Feature:
+
+Clears the token from localStorage when clicking the Logout button.
+Redirects back to the login page after logout.
+
+*/
