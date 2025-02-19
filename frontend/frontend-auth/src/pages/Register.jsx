@@ -19,12 +19,13 @@ const Register = () => {
       });
       navigate("/login"); // ✅ Redirect to Login after registration
     } catch (error) {
-      alert("Registration failed");
+      console.error("Registration Error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Registration failed");
     }
   };
 
   return (
-    <div className="register-container">  {/* ✅ Full-width container */}
+    <div className="register-container"> {/* ✅ Full-width container */}
       <div className="register-box">  
         <h2>Register</h2>
         <form className="register-form" onSubmit={handleRegister}>
