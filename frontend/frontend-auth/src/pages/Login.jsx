@@ -23,3 +23,5 @@ exports.login = async (req, res) => {
   
   res.json({ token });
 };
+
+export default Login;
