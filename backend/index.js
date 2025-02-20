@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors");  // ✅ Declare `cors` only ONCE!
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
@@ -8,21 +8,20 @@ require("./config/passport"); // Google OAuth config
 const authRoutes = require("./routes/auth");
 const protectedRoutes = require("./routes/protected");
 
-
-
 const app = express();
 
 // ✅ Middleware (Make sure this is BEFORE your routes)
-app.use(express.json()); // ✅ Fix for req.body undefined issue
-app.use(cors({ origin: "http://127.0.0.1:5173", credentials: true })); // Allow frontend requests
-app.use(cookieParser()); // Handle cookies
-app.use("/api", protectedRoutes); // ✅ This ensures route is `/api/protected`
+app.use(express.json()); // Fix for req.body undefined issue
 
-const cors = require('cors');
 app.use(cors({
-  methods: 'GET,POST',
-  allowedHeaders: 'Content-Type,Authorization'
+  origin: "http://127.0.0.1:5173",
+  credentials: true,
+  methods: "GET,POST,PUT,DELETE",
+  allowedHeaders: "Content-Type,Authorization"
 }));
+
+app.use(cookieParser()); // Handle cookies
+app.use("/api", protectedRoutes); // Ensure route is `/api/protected`
 
 // ✅ Session for Google OAuth
 app.use(
