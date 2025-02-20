@@ -24,14 +24,31 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
+  console.log("🟢 Received Login Request:", req.body); // Debugging
   const { email, password } = req.body;
-  const user = await User.findByEmail(email);
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
+
+  if (!email || !password) {
+    console.log("❌ Missing email or password");
+    return res.status(400).json({ message: "Email and password are required" });
+  }
+
+  const user = await User.findOne({ email }); // Use MongoDB/Mongoose OR Sequelize for SQL
+  if (!user) {
+    console.log("❌ User not found:", email);
+    return res.status(400).json({ message: "Invalid credentials" });
+  }
 
   const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+  console.log("🟢 Password Match:", isMatch);
+
+  if (!isMatch) {
+    console.log("❌ Incorrect Password");
+    return res.status(400).json({ message: "Invalid credentials" });
+  }
 
   const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  console.log("✅ Login Successful, Token Generated");
+
   res.json({ token });
 };
 
