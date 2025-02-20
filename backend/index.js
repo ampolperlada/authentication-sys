@@ -18,6 +18,11 @@ app.use(cors({ origin: "http://127.0.0.1:5173", credentials: true })); // Allow 
 app.use(cookieParser()); // Handle cookies
 app.use("/api", protectedRoutes); // ✅ This ensures route is `/api/protected`
 
+const cors = require('cors');
+app.use(cors({
+  methods: 'GET,POST',
+  allowedHeaders: 'Content-Type,Authorization'
+}));
 
 // ✅ Session for Google OAuth
 app.use(
